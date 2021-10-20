@@ -150,6 +150,6 @@ app.use((err, req, res, next) => {
     res.status(status).render('error', { err });
 })
 
-app.listen(3000, () => {
-    console.log('LISTEN ON PORT 3000');
+app.listen(80, () => {
+    console.log('LISTEN ON PORT 80');
 })
