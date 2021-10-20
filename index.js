@@ -20,8 +20,7 @@ const helmet = require('helmet');
 
 const MongoDBStore = require("connect-mongo");
 
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
-console.log(dbUrl);
+const dbUrl = 'mongodb://localhost:27017/yelp-camp';
 
 const campgroundRouter = require('./routes/campgrounds');
 const reviewRouter = require('./routes/reviews');
