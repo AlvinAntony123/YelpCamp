@@ -1,0 +1,107 @@
+<% layout('layouts/boilerplate') %>
+    <h1 class="text-center">Edit Campground</h1>
+
+    <div class="col-6 offset-3">
+        <form action="/campgrounds/<%= camp._id %>?_method=PUT " method="POST" class="validated-edit-form" novalidate
+            enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label" for="title">Title: </label>
+                <input class="form-control" type="text" name="title" id="title" placeholder="Enter Title"
+                    value="<%= camp.title %> " required>
+                <div class="valid-feedback">
+                    Looks Good!!
+                </div>
+                <div class="invalid-feedback">
+                    Enter A Name!!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="location">Location: </label>
+                <input class="form-control" type="text" name="location" id="location" placeholder="Enter Location"
+                    value="<%= camp.location %> " required>
+                <div class="valid-feedback">
+                    Looks Good!!
+                </div>
+                <div class="invalid-feedback">
+                    Enter A Location!!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">Price: </label>
+                <input class="form-control" type="text" name="price" id="price" placeholder="0.00"
+                    value="<%= camp.price %> " required>
+                <div class="valid-feedback">
+                    Looks Good!!
+                </div>
+                <div class="invalid-feedback">
+                    Enter A Price!!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Add Images: </label>
+                    <input class="form-control" type="file" id="image" name="image" multiple>
+                </div>
+                <div class="valid-feedback">
+                    Looks Good!!
+                </div>
+                <div class="invalid-feedback">
+                    Enter A URL!!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">Description: </label>
+                <textarea class="form-control" type="text" name="description" id="description"
+                    placeholder="Enter The Description" required><%= camp.description %></textarea>
+                <div class="valid-feedback">
+                    Looks Good!!
+                </div>
+                <div class="invalid-feedback">
+                    Enter A Description!!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <% camp.images.forEach(function(img, i) {%>
+                    <img src="<%= img.thumbnail %> " class="img-thumbnail" alt="" id="image-<%=i%> ">
+                    <div class="form-check-inline">
+                        <input type="checkbox" name="deleteImages[]" id="image-<%=i%>" value="<%=img.filename%>">
+                    </div>
+                    <label for="image-<%=i%>">Delete</label>
+                    <% }) %>
+            </div>
+
+            <br>
+
+            <button class="btn btn-success mb-3">Submit</button>
+        </form>
+
+        <a class="btn btn-warning" href="/campgrounds/<%=camp._id%>">Return</a>
+
+    </div>
+
+    <script>
+        (function () {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.validated-edit-form')
+
+            // Loop over them and prevent submission
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
