@@ -17,15 +17,17 @@ const passport = require('passport');
 const passportLocal = require('passport-local');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-const MongoStore = require('connect-mongo');
+
+const MongoDBStore = require("connect-mongo");
 
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
+console.log(dbUrl);
 
 const campgroundRouter = require('./routes/campgrounds');
 const reviewRouter = require('./routes/reviews');
 const userRouter = require('./routes/user')
 
-const User = require('./models/user')
+const User = require('./models/user');
 
 //'mongodb://localhost:27017/yelp-camp'
 
@@ -42,18 +44,10 @@ app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const store = new MongoStore({
-    url: dbUrl,
-    secret: 'secret',
-    touchAfter: 24 * 60 * 60
-});
 
-store.on('error', function (e) {
-    console.log('SESSION STORE ERROR', e);
-})
 
 const sessionConfig = {
-    store,
+    store: MongoDBStore.create({ mongoUrl: dbUrl }),
     name: 'session',
     secret: 'secret',
     resave: false,
